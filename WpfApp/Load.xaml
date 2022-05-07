@@ -8,9 +8,9 @@
         Title="Load" Height="450" Width="800">
     <Grid>
         <Label x:Name="LoadLabel" Content="Загрузка" HorizontalAlignment="Left" Margin="349,63,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Button x:Name="LoadButton" Content="OK" HorizontalAlignment="Left" Margin="369,325,0,0" VerticalAlignment="Top" FontSize="20" Width="50" IsEnabled="False"/>
+        <Button x:Name="LoadButton" Content="OK" HorizontalAlignment="Left" Margin="369,325,0,0" VerticalAlignment="Top" FontSize="20" Width="50" IsEnabled="False" Click="ReturnFormClick"/>
         <ProgressBar x:Name="LoadProgress" Margin="275,205,288,205"/>
-        <ProgressBar HorizontalAlignment="Left" Height="10" Margin="928,-46,0,0" VerticalAlignment="Top" Width="100"/>
+        <!--<ProgressBar HorizontalAlignment="Left" Height="10" Margin="928,-46,0,0" VerticalAlignment="Top" Width="100"/>-->
 
     </Grid>
 </Window>

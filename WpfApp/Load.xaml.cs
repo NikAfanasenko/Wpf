@@ -14,14 +14,16 @@ using System.Windows.Shapes;
 
 namespace WpfApp
 {
-    /// <summary>
-    /// Логика взаимодействия для Load.xaml
-    /// </summary>
     public partial class Load : Window
     {
         public Load()
         {
             InitializeComponent();
+        }
+
+        private void ReturnFormClick(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
         }
     }
 }

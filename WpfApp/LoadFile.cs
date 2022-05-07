@@ -9,33 +9,77 @@ namespace WpfApp
 {
     public class LoadFile
     {
-        //public Action IncrementProgress; 
+        private event Action IncrementProgress;
+
+        private Progress _progress;
         async public void ReadFile(object arg)
         {
             try
             {
-                DbService Service = new DbService();
                 List<string> informations = new List<string>();
-                lock (this)
-                {
-                    FileReader reader = arg as FileReader;
+                FileReader reader = arg as FileReader;
                     
-                    foreach (string information in File.ReadLines(reader.Service.FilePath).Skip(reader.Start).Take(reader.Count))
+                foreach (string information in File.ReadLines(reader.Service.FilePath).Skip(reader.Start).Take(reader.Count))
+                {
+                    if (information == null)
                     {
-                        if (information == null)
-                        {
-                            break;
-                        }
-                        informations.Add(information);
+                        break;
                     }
+                    informations.Add(information);
                 }
-                await Service.Create(informations);
+                await AddRowsToDB(informations);
 
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+        async public Task AddRowsToDB(List<string> informations)
+        {
+            try
+            {
+                DbPeopleContextConn context = new DbPeopleContextConn();
+                foreach (string data in informations)
+                {
+                    try
+                    {
+                        var human = new People(data);
+                        context.People.Add(human);
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                }
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public LoadFile(Progress progress)
+        {
+            _progress = progress;
+            IncrementProgress += ChangeProgress;
+        }
+        private void ChangeProgress()
+        {
+            _progress.LoadProgressBar.Dispatcher.Invoke(() =>
+            {
+                _progress.LoadProgressBar.Value++;
+                if (_progress.LoadProgressBar.Value == _progress.LoadProgressBar.Maximum)
+                {
+                    _progress.ButtonOk.IsEnabled = true;
+                }
+
+            });
+            
+            
         }
         /*public LoadFile(Action increment)
         {

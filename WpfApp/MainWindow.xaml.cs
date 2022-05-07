@@ -23,9 +23,11 @@ namespace WpfApp
         /*public Action IncrementProgress;
         public ProgressBar Bar;
         public Button OkButton;*/
+        LoadData XMLFile;
         public MainWindow()
         {
             InitializeComponent();
+            XMLFile = new LoadData();
             //IncrementProgress += IncrementProgressBar;
         }
 
@@ -40,9 +42,10 @@ namespace WpfApp
 
         private void ReadFileButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogService dialogService = new DialogService();
+            XMLFile.LoadDataExcel();
+            /*DialogService dialogService = new DialogService();
             dialogService.OpenFileDialog();
-            LoadData(dialogService);            
+            LoadData(dialogService);    */
 
         }
         private void LoadData(DialogService dialogService)
@@ -53,34 +56,23 @@ namespace WpfApp
             {               
                 int start = 0;
                 int count = File.ReadLines(dialogService.FilePath).Count();
-                LoadWindow.LoadProgress.Maximum = count;
+                LoadWindow.LoadProgress.Maximum = count;             
                 int countContent = count;
-                int number = count / 5;
-                int currentNumber;
-                LoadFile loadFile = new LoadFile();
-                ParameterizedThreadStart readFileDel = new ParameterizedThreadStart(loadFile.ReadFile);
+                int number = 5000;
+                LoadFile loadFile = new LoadFile(new Progress(LoadWindow.LoadProgress,LoadWindow.LoadButton));
+
                 for (int i = 0; i < 5; i++)
                 {
-                    if (countContent > number)
-                    {
-                        countContent -= number;
-                        currentNumber = number;
-                    }
-                    else
-                    {
-                        currentNumber = countContent;
-                    }
-                    FileReader fileReader = new FileReader(dialogService, start, currentNumber);
-                    new Thread(readFileDel).Start(fileReader);
-                    start += currentNumber;
+                    FileReader fileReader = new FileReader(dialogService, start, number);
+                    ThreadPool.QueueUserWorkItem(loadFile.ReadFile, fileReader);
+                    start += number;
+                    countContent -= number;
                 }
-                Console.WriteLine(LoadWindow.LoadProgress.Value);
             }
             catch (Exception ex)
             {
                 throw;
             }
-        }        
-        
+        }
     }
 }

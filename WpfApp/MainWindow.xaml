@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button x:Name="ReadFileButton" Content="Прочитать файл" HorizontalAlignment="Left" Margin="71,350,0,0" VerticalAlignment="Top" Background="#FFA7A5A5" FontFamily="Cascadia Mono" FontSize="20" Click="ReadFileButton_Click"/>
-        <Label x:Name="ShowFileLabel" Content="Label" HorizontalAlignment="Left" Margin="431,67,0,0" VerticalAlignment="Top" FontFamily="Cascadia Code" FontSize="20"/>
+        <!--<Label x:Name="ShowFileLabel" Content="Label" HorizontalAlignment="Left" Margin="431,67,0,0" VerticalAlignment="Top" FontFamily="Cascadia Code" FontSize="20"/>-->
 
     </Grid>
 </Window>

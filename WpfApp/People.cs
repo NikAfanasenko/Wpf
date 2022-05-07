@@ -2,6 +2,7 @@
 
 namespace WpfApp
 {
+    [Serializable]
     public class People
     {
         public int Id { get; set; }
@@ -11,6 +12,11 @@ namespace WpfApp
         public string Patronymic { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+
+        public People()
+        {
+
+        }
         public People(string information)
         {
             string[] data = information.Split(';');
