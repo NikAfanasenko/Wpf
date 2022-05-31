@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace WpfApp
 {
     public partial class Load : Window
-    {
+    {        
         public Load()
         {
             InitializeComponent();
@@ -25,5 +25,6 @@ namespace WpfApp
         {
             this.Hide();
         }
+        
     }
 }

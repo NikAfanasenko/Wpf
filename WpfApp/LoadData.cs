@@ -4,35 +4,42 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace WpfApp
 {
     public class LoadData
     {
+        public List<People> People { get; set; }
+
         public void LoadDataXML()
         {
-            
-            var xmlFormatter = new XmlSerializer(typeof(List<People>));
-            List<People> people = new List<People>()
+            if (People == null)
             {
-                new People("20160303;asdasd;asdasd;asdasd;asdasd;asdasdasdasd"),
-            };
+                MessageBox.Show("Найдите значения для экспорта!","Warning",MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
+            var xmlFormatter = new XmlSerializer(typeof(List<People>));
             using (var file = new FileStream("People.xml",FileMode.OpenOrCreate))
             {
-                xmlFormatter.Serialize(file, people);
+                xmlFormatter.Serialize(file, People);
             }
         }
         public void LoadDataExcel()
         {
             try
             {
+                if (People == null)
+                {
+                    MessageBox.Show("Найдите значения для экспорта!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 using (ExcelHelper helper = new ExcelHelper())
                 {
                     if(helper.Open(Path.Combine(Environment.CurrentDirectory, "People.xlsx")))
                     {
-                        helper.Set("A", 1, "asdasd");
-                        helper.Set("A", 2, DateTime.Now);
+                        helper.Set(People);
                         helper.Save();
                     }
                 }

@@ -68,11 +68,22 @@ namespace WpfApp
             }
         }
 
-        internal bool Set(string column, int row, object data)
+        internal bool Set(List<People> data)
         {
             try
             {
-                ((Worksheet)_excel.ActiveSheet).Cells[row, column] = data;
+                int row = 1;
+                foreach (var item in data)
+                {
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "A"] = item.Date;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "B"] = item.Name;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "C"] = item.Surname;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "D"] = item.Patronymic;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "E"] = item.City;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "F"] = item.Country;
+                    row++;
+                }
+                
                 return true;
             }
             catch (Exception ex)

@@ -8,17 +8,16 @@ namespace WpfApp
 {
     public class FileReader
     {
-        //public Action Increment;
+        private const int MAX_ROWS = 5000;
         public DialogService Service { get; set; }
         public int Start { get; set; }
         public int Count { get; set; }
         
-        public FileReader(DialogService dialog, int start, int count)
+        public FileReader(DialogService dialog, int start)
         {
             Service = dialog;
             Start = start;
-            Count = count;
-            //Increment = increment;
+            Count = Start + MAX_ROWS;
         }
     }
 }

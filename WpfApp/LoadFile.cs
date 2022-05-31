@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WpfApp
 {
     public class LoadFile
     {
-        private event Action IncrementProgress;
-
-        private Progress _progress;
-        async public void ReadFile(object arg)
+        private const int MAX_COUNT = 5000;
+        public bool ReadFile(object arg)
         {
+            bool isAdd = false;
             try
             {
                 List<string> informations = new List<string>();
                 FileReader reader = arg as FileReader;
-                    
-                foreach (string information in File.ReadLines(reader.Service.FilePath).Skip(reader.Start).Take(reader.Count))
+                foreach (string information in File.ReadLines(reader.Service.FilePath).Skip(reader.Start).Take(MAX_COUNT))
                 {
                     if (information == null)
                     {
@@ -27,15 +27,21 @@ namespace WpfApp
                     }
                     informations.Add(information);
                 }
-                await AddRowsToDB(informations);
+                Console.WriteLine(informations.Count);
+                if(SaveToDB(informations))
+                {
+                    isAdd = true;
+                }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw;
             }
+            return isAdd;
         }
-        async public Task AddRowsToDB(List<string> informations)
+        public bool SaveToDB(List<string> informations)
         {
             try
             {
@@ -43,47 +49,28 @@ namespace WpfApp
                 foreach (string data in informations)
                 {
                     try
-                    {
-                        var human = new People(data);
-                        context.People.Add(human);
+                    {                        
+                        context.People.Add(new People(data));
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-
+                        Console.WriteLine(ex.Message);
                         throw;
                     }
                 }
                 context.SaveChanges();
+                return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
+                return false;
                 throw;
             }
-
         }
 
-        public LoadFile(Progress progress)
-        {
-            _progress = progress;
-            IncrementProgress += ChangeProgress;
+        public LoadFile()
+        {       
         }
-        private void ChangeProgress()
-        {
-            _progress.LoadProgressBar.Dispatcher.Invoke(() =>
-            {
-                _progress.LoadProgressBar.Value++;
-                if (_progress.LoadProgressBar.Value == _progress.LoadProgressBar.Maximum)
-                {
-                    _progress.ButtonOk.IsEnabled = true;
-                }
-
-            });
-            
-            
-        }
-        /*public LoadFile(Action increment)
-        {
-            IncrementProgress = increment;
-        }*/
     }
 }
