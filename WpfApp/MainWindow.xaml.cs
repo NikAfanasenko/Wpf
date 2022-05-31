@@ -24,19 +24,19 @@ namespace WpfApp
         private const int MAX_THREADS = 5;
         private const int MAX_ROWS = 5000;
         private int _start;
-        /*private List<TextBox> _elements;
-        private List<TextBox> _inputs;*/
         private LoadFile _loadFile;
         private Action<object> _actionInfo;
         private DialogService _dialogService;
         private Semaphore _semaphore;
         private LoadData _loadData;
+        private bool _isLoadFile;
         public MainWindow()
         {
             _semaphore = new Semaphore(MAX_THREADS, MAX_THREADS);
             InitializeComponent();
             _start = 0;
             _loadData = new LoadData();
+            _isLoadFile = true;
         }
 
 
@@ -44,16 +44,18 @@ namespace WpfApp
         {
             _dialogService = new DialogService();
             _loadFile = new LoadFile();
+            _dialogService.OpenFileDialog();
             _actionInfo += _loadFile.ReadFile;
             int count = File.ReadLines(_dialogService.FilePath).Count();
-            _dialogService.OpenFileDialog();
+            
             await LoadData(_dialogService, _actionInfo, count);    
 
         }
         private async Task LoadData(DialogService dialogService,Action<object> actionInfo,int count)
         {
             Load LoadWindow = new Load();
-            LoadWindow.Show();
+            if (_isLoadFile)
+                LoadWindow.Show();
             try
             {                               
                 int current = count;
@@ -69,10 +71,21 @@ namespace WpfApp
                         {
                             current -= MAX_ROWS;
                             _start += MAX_ROWS;
+                            if (_isLoadFile)
+                                Dispatcher.Invoke(() => LoadWindow.LoadProgress.Value += MAX_ROWS);
                         }
                         else
                         {
                             _start += current;
+                            if (_isLoadFile)
+                            {
+                                Dispatcher.Invoke(() => {
+                                    LoadWindow.LoadProgress.Value += current;
+                                });
+                            }
+                            Dispatcher.Invoke(() => {
+                                LoadWindow.LoadButton.Visibility = Visibility.Visible;
+                            });
                             current = 0;
                         }
                     }
