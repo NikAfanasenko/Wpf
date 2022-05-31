@@ -49,7 +49,6 @@ namespace WpfApp
             _readerInfo += _loadFile.ReadFile;
             int count = File.ReadLines(_dialogService.FilePath).Count();
             await LoadData(_dialogService, _readerInfo,count);    
-            //CheckTB();
 
         }
         private async Task LoadData(DialogService dialogService, Func<object,bool> actionMethd,int count)
@@ -73,7 +72,6 @@ namespace WpfApp
                                  threads.Add(new Thread((s) =>
                                  {
                                      actionMethd.Invoke(new FileReader(dialogService, _start));
-                                     //loadFile.ReadFile(new FileReader(dialogService, _start));
                                  })
                                  { IsBackground = true });
                                 if (current > MAX_ROWS)
@@ -137,33 +135,34 @@ namespace WpfApp
 
         }
 
-        private void CheckTB()
-        {
-            (from tb in _inputs select tb).All(tb =>
-            {
-                if (new Regex(@"\d*").IsMatch(tb.Text))
-                {
-                    MessageBox.Show("Не корректный ввод!","Warning",MessageBoxButton.OK,MessageBoxImage.Warning);
-                    tb.Focus();
-                    return false;
-                }
-                return true;
-            });
-            
-        }
+        #region Думал сделать проверку
+        /* private void CheckTB()
+         {
+             (from tb in _inputs select tb).All(tb =>
+             {
+                 if (new Regex(@"\d*").IsMatch(tb.Text))
+                 {
+                     MessageBox.Show("Не корректный ввод!","Warning",MessageBoxButton.OK,MessageBoxImage.Warning);
+                     tb.Focus();
+                     return false;
+                 }
+                 return true;
+             });
 
-        private void CheckDate()
-        {
-            if (!string.IsNullOrEmpty(TB1.Text))
-            {
-                if (!new Regex(@"[0-3][0-9]-[0-1][0-9]-19|20[0-9]{2}").IsMatch(TB1.Text))
-                {
-                    MessageBox.Show("Дата введена не правильно!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    TB1.Focus();
-                }
-            }
-        }
+         }
 
+         private void CheckDate()
+         {
+             if (!string.IsNullOrEmpty(TB1.Text))
+             {
+                 if (!new Regex(@"[0-3][0-9]-[0-1][0-9]-19|20[0-9]{2}").IsMatch(TB1.Text))
+                 {
+                     MessageBox.Show("Дата введена не правильно!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                     TB1.Focus();
+                 }
+             }
+         }*/
+        #endregion
         private DateTime GetDate()
         {
             string[] dates = TB1.Text.Split('-');
@@ -176,11 +175,9 @@ namespace WpfApp
             loadData.LoadDataXML();
         }
 
-        private async void ExportExcelBut_Click(object sender, RoutedEventArgs e)
+        private void ExportExcelBut_Click(object sender, RoutedEventArgs e)
         {
             loadData.LoadDataExcel();
-            //_readerInfo += ;
-            //await LoadData(_dialogService, _readerInfo,loadData.People.Count);
         }
     }
 }
