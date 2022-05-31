@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WpfApp
@@ -12,12 +13,14 @@ namespace WpfApp
         public DialogService Service { get; set; }
         public int Start { get; set; }
         public int Count { get; set; }
-        
-        public FileReader(DialogService dialog, int start)
+        public Semaphore Flag { get; set; }
+
+        public FileReader(DialogService dialog, int start,Semaphore semaphore)
         {
             Service = dialog;
             Start = start;
             Count = Start + MAX_ROWS;
+            Flag = semaphore;
         }
     }
 }

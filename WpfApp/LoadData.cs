@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
@@ -26,10 +27,11 @@ namespace WpfApp
                 xmlFormatter.Serialize(file, People);
             }
         }
-        public void LoadDataExcel()
+        public void LoadDataExcel(object arg)
         {
             try
             {
+                FileReader reader = (FileReader)arg;
                 if (People == null)
                 {
                     MessageBox.Show("Найдите значения для экспорта!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -39,8 +41,10 @@ namespace WpfApp
                 {
                     if(helper.Open(Path.Combine(Environment.CurrentDirectory, "People.xlsx")))
                     {
+                        Thread.Sleep(1);
                         helper.Set(People);
                         helper.Save();
+                        reader.Flag.Release();
                     }
                 }
             }

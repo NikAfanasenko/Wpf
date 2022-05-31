@@ -12,11 +12,11 @@ namespace WpfApp
     public class LoadFile
     {
         private const int MAX_COUNT = 5000;
-        public bool ReadFile(object arg)
+        public void ReadFile(object arg)
         {
-            bool isAdd = false;
             try
             {
+                Thread.Sleep(1);
                 List<string> informations = new List<string>();
                 FileReader reader = arg as FileReader;
                 foreach (string information in File.ReadLines(reader.Service.FilePath).Skip(reader.Start).Take(MAX_COUNT))
@@ -27,19 +27,14 @@ namespace WpfApp
                     }
                     informations.Add(information);
                 }
-                Console.WriteLine(informations.Count);
-                if(SaveToDB(informations))
-                {
-                    isAdd = true;
-                }
-
+                SaveToDB(informations);
+                reader.Flag.Release();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 throw;
             }
-            return isAdd;
         }
         public bool SaveToDB(List<string> informations)
         {
@@ -67,10 +62,6 @@ namespace WpfApp
                 return false;
                 throw;
             }
-        }
-
-        public LoadFile()
-        {       
         }
     }
 }
