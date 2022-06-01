@@ -68,19 +68,19 @@ namespace WpfApp
             }
         }
 
-        internal bool Set(List<People> data)
+        internal bool Set(List<People> peopleGroup)
         {
             try
             {
                 int row = 1;
-                foreach (var item in data)
+                foreach (var human in peopleGroup)
                 {
-                    ((Worksheet)_excel.ActiveSheet).Cells[row, "A"] = item.Date;
-                    ((Worksheet)_excel.ActiveSheet).Cells[row, "B"] = item.Name;
-                    ((Worksheet)_excel.ActiveSheet).Cells[row, "C"] = item.Surname;
-                    ((Worksheet)_excel.ActiveSheet).Cells[row, "D"] = item.Patronymic;
-                    ((Worksheet)_excel.ActiveSheet).Cells[row, "E"] = item.City;
-                    ((Worksheet)_excel.ActiveSheet).Cells[row, "F"] = item.Country;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "A"] = human.Date;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "B"] = human.Name;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "C"] = human.Surname;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "D"] = human.Patronymic;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "E"] = human.City;
+                    ((Worksheet)_excel.ActiveSheet).Cells[row, "F"] = human.Country;
                     row++;
                 }
                 

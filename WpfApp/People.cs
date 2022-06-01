@@ -31,11 +31,6 @@ namespace WpfApp
                 || people1.City != people2.City
                 || people1.Country != people2.Country;
         }
-
-        public People()
-        {
-
-        }
         public People(string information)
         {
             string[] data = information.Split(';');

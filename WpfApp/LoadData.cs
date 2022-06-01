@@ -39,10 +39,10 @@ namespace WpfApp
                 }
                 using (ExcelHelper helper = new ExcelHelper())
                 {
-                    if(helper.Open(Path.Combine(Environment.CurrentDirectory, "People.xlsx")))
+                    if(helper.Open(path: Path.Combine(Environment.CurrentDirectory, "People.xlsx")))
                     {
                         Thread.Sleep(1);
-                        helper.Set(People);
+                        helper.Set(peopleGroup: People);
                         helper.Save();
                         reader.Flag.Release();
                     }

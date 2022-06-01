@@ -17,17 +17,17 @@ namespace WpfApp
             try
             {
                 Thread.Sleep(1);
-                List<string> informations = new List<string>();
+                List<string> peopleCharacters = new List<string>();
                 FileReader reader = arg as FileReader;
-                foreach (string information in File.ReadLines(reader.Service.FilePath).Skip(reader.Start).Take(MAX_COUNT))
+                foreach (string characters in File.ReadLines(reader.Service.FilePath).Skip(reader.Start).Take(MAX_COUNT))
                 {
-                    if (information == null)
+                    if (characters == null)
                     {
                         break;
                     }
-                    informations.Add(information);
+                    peopleCharacters.Add(characters);
                 }
-                SaveToDB(informations);
+                SaveToDB(peopleCharacters: peopleCharacters);
                 reader.Flag.Release();
             }
             catch (Exception ex)
@@ -36,16 +36,16 @@ namespace WpfApp
                 throw;
             }
         }
-        public bool SaveToDB(List<string> informations)
+        public bool SaveToDB(List<string> peopleCharacters)
         {
             try
             {
                 DbPeopleContextConn context = new DbPeopleContextConn();
-                foreach (string data in informations)
+                foreach (string people in peopleCharacters)
                 {
                     try
                     {                        
-                        context.People.Add(new People(data));
+                        context.People.Add(new People(people));
                     }
                     catch (Exception ex)
                     {

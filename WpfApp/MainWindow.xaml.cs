@@ -53,8 +53,8 @@ namespace WpfApp
             _loadFile = new LoadFile();
             _dialogService.OpenFileDialog();
             _actionInfo += _loadFile.ReadFile;
-            int count = File.ReadLines(_dialogService.FilePath).Count();            
-            await LoadData(_dialogService, _actionInfo, count);    
+            int count = File.ReadLines(path: _dialogService.FilePath).Count();            
+            await LoadData(dialogService: _dialogService,actionInfo: _actionInfo,count: count);    
 
         }
         private async Task LoadData(DialogService dialogService,Action<object> actionInfo,int count)
