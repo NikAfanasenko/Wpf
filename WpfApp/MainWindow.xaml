@@ -8,17 +8,17 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button x:Name="ReadFileButton" Content="Прочитать файл" HorizontalAlignment="Left" Margin="69,381,0,0" VerticalAlignment="Top" Background="#FFA7A5A5" FontFamily="Cascadia Mono" FontSize="20" Click="ReadFileButton_Click"/>
-        <TextBox x:Name="TB1" HorizontalAlignment="Left" Margin="432,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+        <TextBox x:Name="DateTB" HorizontalAlignment="Left" Margin="432,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF" Text="dd-mm-yyyy" MaxLength="10"/>
         <TextBlock HorizontalAlignment="Left" Margin="432,55,0,0" TextWrapping="Wrap" Text="Дата" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB2" HorizontalAlignment="Left" Margin="432,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+        <TextBox x:Name="NameTB" HorizontalAlignment="Left" Margin="432,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
         <TextBlock HorizontalAlignment="Left" Margin="432,102,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB3" HorizontalAlignment="Left" Margin="432,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+        <TextBox x:Name="SurnameTB" HorizontalAlignment="Left" Margin="432,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
         <TextBlock HorizontalAlignment="Left" Margin="432,149,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB4" HorizontalAlignment="Left" Margin="432,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+        <TextBox x:Name="PatronymicTB" HorizontalAlignment="Left" Margin="432,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
         <TextBlock HorizontalAlignment="Left" Margin="432,201,0,0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB5" HorizontalAlignment="Left" Margin="557,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+        <TextBox x:Name="CityTB" HorizontalAlignment="Left" Margin="557,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
         <TextBlock HorizontalAlignment="Left" Margin="557,55,0,0" TextWrapping="Wrap" Text="Город" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB6" HorizontalAlignment="Left" Margin="557,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+        <TextBox x:Name="CountryTB" HorizontalAlignment="Left" Margin="557,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
         <TextBlock HorizontalAlignment="Left" Margin="557,105,0,0" TextWrapping="Wrap" Text="Страна" VerticalAlignment="Top"/>
         <TextBox x:Name="ResultTb" IsReadOnly="True" HorizontalAlignment="Left" Margin="432,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
         <TextBlock HorizontalAlignment="Left" Margin="432,266,0,0" TextWrapping="Wrap" Text="Результат" VerticalAlignment="Top"/>

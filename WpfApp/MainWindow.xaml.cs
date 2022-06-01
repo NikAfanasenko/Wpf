@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace WpfApp
 {
     public partial class MainWindow : Window
-    {        
+    {
+        private const string PLACEHOLDER = "dd-mm-yyyy";
         private const int MAX_THREADS = 5;
         private const int MAX_ROWS = 5000;
         private int _start;
@@ -34,11 +24,28 @@ namespace WpfApp
         {
             _semaphore = new Semaphore(MAX_THREADS, MAX_THREADS);
             InitializeComponent();
+            DateTB.GotFocus += RemovePlaceHolder;
+            DateTB.LostFocus += AddPlaceHolder;
             _start = 0;
             _loadData = new LoadData();
             _isLoadFile = true;
         }
 
+        private void AddPlaceHolder(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(DateTB.Text))
+            {
+                DateTB.Text = PLACEHOLDER;
+            }               
+        }
+
+        private void RemovePlaceHolder(object sender, RoutedEventArgs e)
+        {
+            if (DateTB.Text == PLACEHOLDER)
+            {
+                DateTB.Text = "";
+            }
+        }
 
         private async void ReadFileButton_Click(object sender, RoutedEventArgs e)
         {
@@ -46,8 +53,7 @@ namespace WpfApp
             _loadFile = new LoadFile();
             _dialogService.OpenFileDialog();
             _actionInfo += _loadFile.ReadFile;
-            int count = File.ReadLines(_dialogService.FilePath).Count();
-            
+            int count = File.ReadLines(_dialogService.FilePath).Count();            
             await LoadData(_dialogService, _actionInfo, count);    
 
         }
@@ -84,7 +90,7 @@ namespace WpfApp
                                 });
                             }
                             Dispatcher.Invoke(() => {
-                                LoadWindow.LoadButton.Visibility = Visibility.Visible;
+                                LoadWindow.LoadButton.IsEnabled = true;
                             });
                             current = 0;
                         }
@@ -104,23 +110,47 @@ namespace WpfApp
             await Task.Run(() => {
                 Dispatcher.Invoke(() => 
                 {
+                    bool isHolder = IsPlaceholder();
+                    bool isCorrectDate = CheckDate();
+                    DateTime date;
+                    if (!isHolder && !isCorrectDate)
+                    {
+                        DateTB.Focus();
+                        MessageBox.Show("Проверьте дату","Warning",MessageBoxButton.OK,MessageBoxImage.Warning);
+                        return;
+                    }
+                    if (!isHolder && isCorrectDate)
+                    {
+                        date = GetDate();
+                    }
+                    else
+                    {
+                        date = DateTime.Now;
+                    }                    
                     _loadData.People = (from human in context.People
-                                  where string.IsNullOrEmpty(TB2.Text) || human.Name == TB2.Text
-                                  && string.IsNullOrEmpty(TB3.Text) || human.Surname == TB3.Text
-                                  && string.IsNullOrEmpty(TB4.Text) || human.Patronymic == TB4.Text
-                                  && string.IsNullOrEmpty(TB5.Text) || human.City == TB5.Text
-                                  && string.IsNullOrEmpty(TB6.Text) || human.Country == TB6.Text
-                                  select human).ToList();
+                                        where isHolder? true : human.Date == date
+                                        && string.IsNullOrEmpty(NameTB.Text) || human.Name == NameTB.Text
+                                        && string.IsNullOrEmpty(SurnameTB.Text) || human.Surname == SurnameTB.Text
+                                        && string.IsNullOrEmpty(PatronymicTB.Text) || human.Patronymic == PatronymicTB.Text
+                                        && string.IsNullOrEmpty(CityTB.Text) || human.City == CityTB.Text
+                                        && string.IsNullOrEmpty(CountryTB.Text) || human.Country == CountryTB.Text
+                                        select human).ToList();
                     ResultTb.Text = _loadData.People.Count.ToString();
                 });
             });
 
         }
+        private bool IsPlaceholder() => DateTB.Text.CompareTo(PLACEHOLDER) == 0 ? true : false;
 
-        
-        private DateTime GetDate()
+        private bool CheckDate()
         {
-            string[] dates = TB1.Text.Split('-');
+            Regex regex = new Regex(@"([0-3]{1}[0-9]{1})-([0-1]{1}[0-9]{1})-(19|20)([0-9]{2})");
+            return regex.IsMatch(DateTB.Text);
+        }
+
+        private DateTime GetDate()
+        {         
+            string[] dates = DateTB.Text.Split('-');
             return new DateTime(Int32.Parse(dates[2]) , Int32.Parse(dates[1]) , Int32.Parse(dates[0]));            
         }
 
@@ -133,8 +163,7 @@ namespace WpfApp
         private async void ExportExcelBut_Click(object sender, RoutedEventArgs e)
         {
             _actionInfo += _loadData.LoadDataExcel;
-            await LoadData(_dialogService, _actionInfo,_loadData.People.Count);
-            //_loadData.LoadDataExcel();
+            await LoadData(_dialogService, _actionInfo,_loadData.People.Count);            
         }
     }
 }
