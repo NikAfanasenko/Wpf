@@ -17,7 +17,7 @@ namespace WpfApp
             try
             {
                 Thread.Sleep(1);
-                List<string> peopleCharacters = new List<string>();
+                List<People> peopleCharacters = new List<People>();
                 FileReader reader = arg as FileReader;
                 foreach (string characters in File.ReadLines(reader.Service.FilePath).Skip(reader.Start).Take(MAX_COUNT))
                 {
@@ -25,7 +25,7 @@ namespace WpfApp
                     {
                         break;
                     }
-                    peopleCharacters.Add(characters);
+                    peopleCharacters.Add(new People(characters));
                 }
                 SaveToDB(peopleCharacters: peopleCharacters);
                 reader.Flag.Release();
@@ -36,22 +36,19 @@ namespace WpfApp
                 throw;
             }
         }
-        public bool SaveToDB(List<string> peopleCharacters)
+        public bool SaveToDB(List<People> peopleCharacters)
         {
             try
             {
-                DbPeopleContextConn context = new DbPeopleContextConn();
-                foreach (string people in peopleCharacters)
+                DbPeopleContextConn context = new DbPeopleContextConn();                
+                try
                 {
-                    try
-                    {                        
-                        context.People.Add(new People(people));
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        throw;
-                    }
+                    context.People.AddRange(peopleCharacters);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
                 }
                 context.SaveChanges();
                 return true;

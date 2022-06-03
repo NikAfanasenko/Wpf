@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace WpfApp
 {
@@ -20,10 +21,20 @@ namespace WpfApp
         private Semaphore _semaphore;
         private LoadData _loadData;
         private bool _isLoadFile;
+        private SideMenu _sideMenu;
+
+        private void panelHeader_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
         public MainWindow()
         {
             _semaphore = new Semaphore(MAX_THREADS, MAX_THREADS);
             InitializeComponent();
+            _sideMenu = new SideMenu(sideMenu: sideMenu);
             DateTB.GotFocus += RemovePlaceHolder;
             DateTB.LostFocus += AddPlaceHolder;
             _start = 0;
@@ -47,16 +58,6 @@ namespace WpfApp
             }
         }
 
-        private async void ReadFileButton_Click(object sender, RoutedEventArgs e)
-        {
-            _dialogService = new DialogService();
-            _loadFile = new LoadFile();
-            _dialogService.OpenFileDialog();
-            _actionInfo += _loadFile.ReadFile;
-            int count = File.ReadLines(path: _dialogService.FilePath).Count();            
-            await LoadData(dialogService: _dialogService,actionInfo: _actionInfo,count: count);    
-
-        }
         private async Task LoadData(DialogService dialogService,Action<object> actionInfo,int count)
         {
             Load LoadWindow = new Load();
@@ -103,43 +104,6 @@ namespace WpfApp
                 throw;
             }
         }
-
-        private async void FindBut_Click(object sender, RoutedEventArgs e)
-        {
-            DbPeopleContextConn context = new DbPeopleContextConn();
-            await Task.Run(() => {
-                Dispatcher.Invoke(() => 
-                {
-                    bool isHolder = IsPlaceholder();
-                    bool isCorrectDate = CheckDate();
-                    DateTime date;
-                    if (!isHolder && !isCorrectDate)
-                    {
-                        DateTB.Focus();
-                        MessageBox.Show("Проверьте дату","Warning",MessageBoxButton.OK,MessageBoxImage.Warning);
-                        return;
-                    }
-                    if (!isHolder && isCorrectDate)
-                    {
-                        date = GetDate();
-                    }
-                    else
-                    {
-                        date = DateTime.Now;
-                    }                    
-                    _loadData.People = (from human in context.People
-                                        where isHolder? true : human.Date == date
-                                        && string.IsNullOrEmpty(NameTB.Text) || human.Name == NameTB.Text
-                                        && string.IsNullOrEmpty(SurnameTB.Text) || human.Surname == SurnameTB.Text
-                                        && string.IsNullOrEmpty(PatronymicTB.Text) || human.Patronymic == PatronymicTB.Text
-                                        && string.IsNullOrEmpty(CityTB.Text) || human.City == CityTB.Text
-                                        && string.IsNullOrEmpty(CountryTB.Text) || human.Country == CountryTB.Text
-                                        select human).ToList();
-                    ResultTb.Text = _loadData.People.Count.ToString();
-                });
-            });
-
-        }
         private bool IsPlaceholder() => DateTB.Text.CompareTo(PLACEHOLDER) == 0 ? true : false;
 
         private bool CheckDate()
@@ -155,15 +119,65 @@ namespace WpfApp
         }
 
 
-        private void ExportXMLBut_Click(object sender, RoutedEventArgs e)
+
+        private void Menu_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _sideMenu.StartTimerEventHandler?.Invoke();
+        }
+
+        private async void ReadFileClick(object sender, MouseButtonEventArgs e)
+        {
+            _dialogService = new DialogService();
+            _loadFile = new LoadFile();
+            _dialogService.OpenFileDialog();
+            _actionInfo += _loadFile.ReadFile;
+            int count = File.ReadLines(path: _dialogService.FilePath).Count();
+            await LoadData(dialogService: _dialogService, actionInfo: _actionInfo, count: count);
+        }
+
+        private async void FindClick(object sender, MouseButtonEventArgs e)
+        {
+            DbPeopleContextConn context = new DbPeopleContextConn();
+            await Task.Run(() => {
+                Dispatcher.Invoke(() =>
+                {
+                    bool isHolder = IsPlaceholder();
+                    bool isCorrectDate = CheckDate();
+                    DateTime date;
+                    if (!isHolder && !isCorrectDate)
+                    {
+                        DateTB.Focus();
+                        MessageBox.Show("Проверьте дату", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                    if (!isHolder && isCorrectDate)
+                        date = GetDate();
+                    else
+                        date = DateTime.Now;
+                    _loadData.People = (from human in context.People
+                                        where (isHolder ? true : human.Date == date)
+                                        && (string.IsNullOrEmpty(NameTB.Text) || human.Name == NameTB.Text)
+                                        && (string.IsNullOrEmpty(SurnameTB.Text) || human.Surname == SurnameTB.Text)
+                                        && (string.IsNullOrEmpty(PatronymicTB.Text) || human.Patronymic == PatronymicTB.Text)
+                                        && (string.IsNullOrEmpty(CityTB.Text) || human.City == CityTB.Text)
+                                        && (string.IsNullOrEmpty(CountryTB.Text) || human.Country == CountryTB.Text)
+                                        select human).ToList();
+                    ResultTb.Text = _loadData.People.Count.ToString();
+                });
+            });
+        }
+
+        private void ExportXMLClick(object sender, MouseButtonEventArgs e)
         {
             _loadData.LoadDataXML();
         }
 
-        private async void ExportExcelBut_Click(object sender, RoutedEventArgs e)
+        private async void ExportExcelClick(object sender, MouseButtonEventArgs e)
         {
             _actionInfo += _loadData.LoadDataExcel;
-            await LoadData(_dialogService, _actionInfo,_loadData.People.Count);            
+            await LoadData(_dialogService, _actionInfo, _loadData.People.Count);
         }
+
+        
     }
 }

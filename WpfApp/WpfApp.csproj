@@ -163,7 +163,7 @@
       <DependentUpon>Load.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoadFile.cs" />
-    <Compile Include="Progress.cs" />
+    <Compile Include="SideMenu.cs" />
     <Page Include="Load.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -250,6 +250,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\downloadFile.png" />
+    <Resource Include="Icons\excelFile.png" />
+    <Resource Include="Icons\search.png" />
+    <Resource Include="Icons\wmlFile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,23 +7,93 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="ReadFileButton" Content="Прочитать файл" HorizontalAlignment="Left" Margin="69,381,0,0" VerticalAlignment="Top" Background="#FFA7A5A5" FontFamily="Cascadia Mono" FontSize="20" Click="ReadFileButton_Click"/>
-        <TextBox x:Name="DateTB" HorizontalAlignment="Left" Margin="432,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF" Text="dd-mm-yyyy" MaxLength="10"/>
-        <TextBlock HorizontalAlignment="Left" Margin="432,55,0,0" TextWrapping="Wrap" Text="Дата" VerticalAlignment="Top"/>
-        <TextBox x:Name="NameTB" HorizontalAlignment="Left" Margin="432,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
-        <TextBlock HorizontalAlignment="Left" Margin="432,102,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top"/>
-        <TextBox x:Name="SurnameTB" HorizontalAlignment="Left" Margin="432,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
-        <TextBlock HorizontalAlignment="Left" Margin="432,149,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
-        <TextBox x:Name="PatronymicTB" HorizontalAlignment="Left" Margin="432,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
-        <TextBlock HorizontalAlignment="Left" Margin="432,201,0,0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top"/>
-        <TextBox x:Name="CityTB" HorizontalAlignment="Left" Margin="557,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
-        <TextBlock HorizontalAlignment="Left" Margin="557,55,0,0" TextWrapping="Wrap" Text="Город" VerticalAlignment="Top"/>
-        <TextBox x:Name="CountryTB" HorizontalAlignment="Left" Margin="557,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
-        <TextBlock HorizontalAlignment="Left" Margin="557,105,0,0" TextWrapping="Wrap" Text="Страна" VerticalAlignment="Top"/>
-        <TextBox x:Name="ResultTb" IsReadOnly="True" HorizontalAlignment="Left" Margin="432,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
-        <TextBlock HorizontalAlignment="Left" Margin="432,266,0,0" TextWrapping="Wrap" Text="Результат" VerticalAlignment="Top"/>
-        <Button x:Name="FindBut"  VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="20 0 0 120"  Width="100" Height="30" Content="Найти"  Background="#FFA7A5A5" FontFamily="Cascadia Mono" FontSize="20" Click="FindBut_Click" Command="{Binding ElementName=ExportToXMLBut, Mode=OneWay}"/>
-        <Button x:Name="ExportToXMLBut" VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="20 0 0 60" Content="Экспорт в XML"  Background="#FFA7A5A5" FontFamily="Cascadia Mono" FontSize="20" Click="ExportXMLBut_Click"/>
-        <Button x:Name="ExportToExcelBut" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20" Content="Экспорт в Excel" Background="#FFA7A5A5" FontFamily="Cascadia Mono" FontSize="20" Click="ExportExcelBut_Click"/>
+        <Grid Background="#FF989898">
+            <Grid x:Name="panelHeader" VerticalAlignment="Top" Height="50" Background="AntiqueWhite" MouseDown="panelHeader_MouseDown">
+                <TextBlock Text="Главная" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                </TextBlock>
+            </Grid>
+            <Grid x:Name="sideMenu" Background="AntiqueWhite" HorizontalAlignment="Left" Width="190" Panel.ZIndex="1">
+                <StackPanel>
+                    <Grid Height="150" Background="White">
+                        <Button HorizontalAlignment="Right" Height="20" VerticalAlignment="Top" BorderBrush="Transparent" Background="Transparent" Click="Menu_Button_Click">
+                            <Image Source="Icons/menu.png"></Image>
+                        </Button>
+                    </Grid>
+                    <ListView x:Name="ReadFileButton" FontFamily="Century Gothic" FontSize="14" Foreground="White" BorderBrush="Transparent" Background="Transparent" MouseDoubleClick="ReadFileClick">
+                        <ListViewItem Height="30">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Icons/downloadFile.png" VerticalAlignment="Center"></Image>
+                                <TextBlock Text="Прочитать файл" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                    <ListView x:Name="FindBut" FontFamily="Century Gothic" FontSize="14" Foreground="White" BorderBrush="Transparent" Background="Transparent" MouseDoubleClick="FindClick">
+                        <ListViewItem Height="30">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Icons/search.png" VerticalAlignment="Center"></Image>
+                                <TextBlock Text="Найти" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                    <ListView x:Name="ExportToXMLBut" FontFamily="Century Gothic" FontSize="14" Foreground="White" BorderBrush="Transparent" Background="Transparent" MouseDoubleClick="ExportXMLClick">
+                        <ListViewItem Height="30">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Icons/wmlFile.png" VerticalAlignment="Center"></Image>
+                                <TextBlock Text="Загрузить в XML" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                    <ListView x:Name="ExportToExcelBut" FontFamily="Century Gothic" FontSize="14" Foreground="White" BorderBrush="Transparent" Background="Transparent" MouseDoubleClick="ExportExcelClick">
+                        <ListViewItem Height="30">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Icons/excelFile.png" VerticalAlignment="Center"></Image>
+                                <TextBlock Text="Загрузить в Excel" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+
+
+            <!--<Grid  Width="400" Height="340" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <TextBox x:Name="zxc"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF" MaxLength="10"/>
+                <TextBlock Margin="20 0 0 0" TextWrapping="Wrap" Text="mBSnfasjflasd" VerticalAlignment="Top"/>
+            </Grid>-->
+
+        </Grid>
+        <Grid Width="400" Height="340" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <StackPanel>
+                <TextBlock  TextWrapping="Wrap" Text="Дата" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <TextBox x:Name="DateTB"  Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF" Text="dd-mm-yyyy" MaxLength="10"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Margin="0 40 0 0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                <TextBox x:Name="NameTB"  Height="20"  TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Margin="0 80 0 0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <TextBox x:Name="SurnameTB"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Margin="0 120 0 0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top"  HorizontalAlignment="Center"/>
+                <TextBox x:Name="PatronymicTB"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Margin="0 160 0 0" TextWrapping="Wrap" Text="Город" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <TextBox x:Name="CityTB" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Margin="0 200 0 0" TextWrapping="Wrap" Text="Страна" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <TextBox x:Name="CountryTB" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Margin="0 240 0 0" TextWrapping="Wrap" Text="Результат" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <TextBox x:Name="ResultTb" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
