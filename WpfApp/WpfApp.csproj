@@ -154,6 +154,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\ButtonCommand.cs" />
     <Compile Include="DbPeopleContextConn.cs" />
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="FileReader.cs" />
@@ -164,6 +165,7 @@
     </Compile>
     <Compile Include="LoadFile.cs" />
     <Compile Include="SideMenu.cs" />
+    <Compile Include="ViewModel\ButtonViewModel.cs" />
     <Page Include="Load.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

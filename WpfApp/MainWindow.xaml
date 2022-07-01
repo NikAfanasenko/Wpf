@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp"
+        xmlns:local="clr-namespace:WpfApp"       
+        xmlns:viewModel="clr-namespace:WpfApp.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <viewModel:ButtonViewModel x:Key="vmRead"></viewModel:ButtonViewModel>     
+    </Window.Resources>
     <Grid>
         <Grid Background="#FF989898">
             <Grid x:Name="panelHeader" VerticalAlignment="Top" Height="50" Background="AntiqueWhite" MouseDown="panelHeader_MouseDown">
@@ -13,54 +17,39 @@
 
                 </TextBlock>
             </Grid>
-            <Grid x:Name="sideMenu" Background="AntiqueWhite" HorizontalAlignment="Left" Width="190" Panel.ZIndex="1">
+            <Grid x:Name="sideMenu" Background="AntiqueWhite" HorizontalAlignment="Left" Width="200" Panel.ZIndex="1">
                 <StackPanel>
                     <Grid Height="150" Background="White">
-                        <Button HorizontalAlignment="Right" Height="20" VerticalAlignment="Top" BorderBrush="Transparent" Background="Transparent" Click="Menu_Button_Click">
+                        <Button HorizontalAlignment="Right" Height="20" VerticalAlignment="Top" BorderBrush="Transparent" Background="Transparent" Click="Menu_Button_Click" >
                             <Image Source="Icons/menu.png"></Image>
                         </Button>
                     </Grid>
-                    <ListView x:Name="ReadFileButton" FontFamily="Century Gothic" FontSize="14" Foreground="White" BorderBrush="Transparent" Background="Transparent" MouseDoubleClick="ReadFileClick">
-                        <ListViewItem Height="30">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="Icons/downloadFile.png" VerticalAlignment="Center"></Image>
-                                <TextBlock Text="Прочитать файл" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
-                            </StackPanel>
-                        </ListViewItem>
-                    </ListView>
-                    <ListView x:Name="FindBut" FontFamily="Century Gothic" FontSize="14" Foreground="White" BorderBrush="Transparent" Background="Transparent" MouseDoubleClick="FindClick">
-                        <ListViewItem Height="30">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="Icons/search.png" VerticalAlignment="Center"></Image>
-                                <TextBlock Text="Найти" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
-                            </StackPanel>
-                        </ListViewItem>
-                    </ListView>
-                    <ListView x:Name="ExportToXMLBut" FontFamily="Century Gothic" FontSize="14" Foreground="White" BorderBrush="Transparent" Background="Transparent" MouseDoubleClick="ExportXMLClick">
-                        <ListViewItem Height="30">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="Icons/wmlFile.png" VerticalAlignment="Center"></Image>
-                                <TextBlock Text="Загрузить в XML" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
-                            </StackPanel>
-                        </ListViewItem>
-                    </ListView>
-                    <ListView x:Name="ExportToExcelBut" FontFamily="Century Gothic" FontSize="14" Foreground="White" BorderBrush="Transparent" Background="Transparent" MouseDoubleClick="ExportExcelClick">
-                        <ListViewItem Height="30">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="Icons/excelFile.png" VerticalAlignment="Center"></Image>
-                                <TextBlock Text="Загрузить в Excel" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
-                            </StackPanel>
-                        </ListViewItem>
-                    </ListView>
+                    <Button Background="Transparent" BorderThickness="0"  FontFamily="Century Gothic" FontSize="14" Width="180" Command="{Binding Source={StaticResource vmRead},Path=Command}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Icons/downloadFile.png" VerticalAlignment="Center"></Image>
+                            <TextBlock Text="Прочитать файл" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" BorderThickness="0"  FontFamily="Century Gothic" FontSize="14" Width="180"  Command="{Binding Source={StaticResource vmRead},Path=FindCommand}">
+                        <StackPanel Orientation="Horizontal" Height="30" >
+                            <Image Source="Icons/search.png" VerticalAlignment="Center"></Image>
+                            <TextBlock Text="Найти" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" BorderThickness="0"  FontFamily="Century Gothic" FontSize="14" Width="180" Command="{Binding Source={StaticResource vmRead},Path=XMLCommand}">
+                        <StackPanel Orientation="Horizontal" Height="30">
+                            <Image Source="Icons/wmlFile.png" VerticalAlignment="Center"></Image>
+                            <TextBlock Text="Загрузить в XML" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button  Background="Transparent" BorderThickness="0"  FontFamily="Century Gothic" FontSize="14" Width="180" Command="{Binding Source={StaticResource vmRead},Path=ExcelCommand}">
+                        <StackPanel Orientation="Horizontal" Height="30">
+                            <Image Source="Icons/excelFile.png" VerticalAlignment="Center"></Image>
+                            <TextBlock Text="Загрузить в Excel" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </Grid>
-
-
-            <!--<Grid  Width="400" Height="340" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <TextBox x:Name="zxc"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF" MaxLength="10"/>
-                <TextBlock Margin="20 0 0 0" TextWrapping="Wrap" Text="mBSnfasjflasd" VerticalAlignment="Top"/>
-            </Grid>-->
-
         </Grid>
         <Grid Width="400" Height="340" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <StackPanel>
