@@ -12,7 +12,13 @@ namespace WpfApp
     public class LoadFile
     {
         private const int MAX_COUNT = 5000;
-        public void ReadFile(object arg)
+
+        public void LoadCSVFile(object arg)
+        {
+            List<People> people = ReadFile(arg);
+            SaveToDB(peopleCharacters: people);
+        }
+        public List<People> ReadFile(object arg)
         {
             try
             {
@@ -27,8 +33,8 @@ namespace WpfApp
                     }
                     peopleCharacters.Add(new People(characters));
                 }
-                SaveToDB(peopleCharacters: peopleCharacters);
                 reader.Flag.Release();
+                return peopleCharacters;
             }
             catch (Exception ex)
             {

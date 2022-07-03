@@ -4,12 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
+        xmlns:viewModel="clr-namespace:WpfApp.ViewModel"
         mc:Ignorable="d"
         Title="Load" Height="450" Width="800">
+    <Window.Resources>
+        <viewModel:ButtonViewModel x:Key="vmRead"></viewModel:ButtonViewModel>
+    </Window.Resources>
     <Grid>
         <Label x:Name="LoadLabel" Content="Загрузка" HorizontalAlignment="Left" Margin="349,63,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Button x:Name="LoadButton" Content="OK" HorizontalAlignment="Left" Margin="369,325,0,0" VerticalAlignment="Top" FontSize="20" Width="50" Height="40" IsEnabled="False" Click="ReturnFormClick"/>
-        <ProgressBar x:Name="LoadProgress" Margin="275,205,288,205"/>
+        <ProgressBar x:Name="LoadProgress" Margin="275,205,288,205" Value="{Binding WorkState}"/>
         <!--<ProgressBar HorizontalAlignment="Left" Height="10" Margin="928,-46,0,0" VerticalAlignment="Top" Width="100"/>-->
 
     </Grid>

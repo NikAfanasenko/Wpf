@@ -155,22 +155,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command\ButtonCommand.cs" />
-    <Compile Include="DbPeopleContextConn.cs" />
-    <Compile Include="ExcelHelper.cs" />
-    <Compile Include="FileReader.cs" />
-    <Compile Include="LoadData.cs" />
-    <Compile Include="People.cs" />
-    <Compile Include="Load.xaml.cs">
+    <Compile Include="Data\DbPeopleContextConn.cs" />
+    <Compile Include="Services\ExcelHelper.cs" />
+    <Compile Include="Services\FileReader.cs" />
+    <Compile Include="Data\LoadData.cs" />
+    <Compile Include="Data\Models\People.cs" />
+    <Compile Include="Views\Load.xaml.cs">
       <DependentUpon>Load.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoadFile.cs" />
-    <Compile Include="SideMenu.cs" />
+    <Compile Include="Services\LoadFile.cs" />
+    <Compile Include="Controls\SideMenu.cs" />
     <Compile Include="ViewModel\ButtonViewModel.cs" />
-    <Page Include="Load.xaml">
+    <Page Include="Views\Load.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -178,9 +178,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DialogService.cs" />
-    <Compile Include="IFilePath.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\IFilePath.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -254,13 +254,13 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\menu.png" />
+    <Resource Include="Assets\Icons\menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\downloadFile.png" />
-    <Resource Include="Icons\excelFile.png" />
-    <Resource Include="Icons\search.png" />
-    <Resource Include="Icons\wmlFile.png" />
+    <Resource Include="Assets\Icons\downloadFile.png" />
+    <Resource Include="Assets\Icons\excelFile.png" />
+    <Resource Include="Assets\Icons\search.png" />
+    <Resource Include="Assets\Icons\wmlFile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

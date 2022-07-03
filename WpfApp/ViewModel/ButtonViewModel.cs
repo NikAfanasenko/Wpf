@@ -49,12 +49,13 @@ namespace WpfApp.ViewModel
         private async Task LoadData(DialogService dialogService, Action<object> actionInfo, int count)
         {
             Load LoadWindow = new Load();
+            CurrentProgress currentProgress = new CurrentProgress(minValue:0, maxValue: count);
             if (_isLoadFile)
                 LoadWindow.Show();
             try
             {
                 int current = count;
-                LoadWindow.LoadProgress.Maximum = count;
+                //LoadWindow.LoadProgress.Maximum = count;
                 await Task.Run(() =>
                 {
                     while (current > 0)
@@ -66,6 +67,7 @@ namespace WpfApp.ViewModel
                         {
                             current -= MAX_ROWS;
                             _start += MAX_ROWS;
+                            currentProgress.Load(MAX_ROWS);
                             //LoadWindow.LoadProgress.Value += MAX_ROWS;
                         }
                         else
@@ -75,6 +77,7 @@ namespace WpfApp.ViewModel
                             {
                                 /*LoadWindow.LoadProgress.Value += current;
                                 LoadWindow.LoadButton.IsEnabled = true;*/
+                                currentProgress.Load(current);
                                 Console.WriteLine("dct");
                                 current = 0;
                             }
@@ -93,7 +96,7 @@ namespace WpfApp.ViewModel
             _dialogService = new DialogService();
             _loadFile = new LoadFile();
             _dialogService.OpenFileDialog();
-            _actionInfo += _loadFile.ReadFile;
+            _actionInfo += _loadFile.LoadCSVFile;
             int count = File.ReadLines(path: _dialogService.FilePath).Count();
             await LoadData(dialogService: _dialogService, actionInfo: _actionInfo, count: count);
         }
