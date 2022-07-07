@@ -18,7 +18,7 @@ namespace WpfApp
         {
             InitializeComponent();            
             _sideMenu = new SideMenu(sideMenu: sideMenu);
-            DataContext = new ButtonViewModel(this);
+            DataContext = new ButtonViewModel(this);            
         }
         private void Menu_Button_Click(object sender, RoutedEventArgs e)
         {

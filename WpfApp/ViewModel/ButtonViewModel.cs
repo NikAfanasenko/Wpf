@@ -23,6 +23,32 @@ namespace WpfApp.ViewModel
         private LoadData _loadData;
         private bool _isLoadFile;
         private MainWindow _mainWindow;
+
+        private string _test;
+
+        public string NameTB
+        {
+            get
+            {
+                return _test;
+            }
+            set
+            {
+                _test = value;
+            }
+        }
+
+        public string DateTB { get; set; }
+
+        public string SurnameTB { get; set; }
+
+        public string PatronymicTB { get; set; }
+
+        public string CityTB { get; set; }
+
+        public string CountryTB { get; set; }
+
+        public string ResultTB { get; set; }
         public ButtonCommand Command { get; set; }
 
         public ButtonCommand ExcelCommand { get; set; }
@@ -41,6 +67,7 @@ namespace WpfApp.ViewModel
             _start = 0;
             _loadData = new LoadData();
             _isLoadFile = true;
+            DateTB = "dd-mm-yyyy";
         }
         public ButtonViewModel(MainWindow window) : this()
         {
@@ -49,7 +76,7 @@ namespace WpfApp.ViewModel
         private async Task LoadData(DialogService dialogService, Action<object> actionInfo, int count)
         {
             Load LoadWindow = new Load();
-            CurrentProgress currentProgress = new CurrentProgress(minValue:0, maxValue: count);
+            //CurrentProgress currentProgress = new CurrentProgress(minValue:0, maxValue: count);
             if (_isLoadFile)
                 LoadWindow.Show();
             try
@@ -67,7 +94,7 @@ namespace WpfApp.ViewModel
                         {
                             current -= MAX_ROWS;
                             _start += MAX_ROWS;
-                            currentProgress.Load(MAX_ROWS);
+                            //currentProgress.Load(MAX_ROWS);
                             //LoadWindow.LoadProgress.Value += MAX_ROWS;
                         }
                         else
@@ -75,9 +102,9 @@ namespace WpfApp.ViewModel
                             _start += current;
                             if (_isLoadFile)
                             {
-                                /*LoadWindow.LoadProgress.Value += current;
-                                LoadWindow.LoadButton.IsEnabled = true;*/
-                                currentProgress.Load(current);
+                                //LoadWindow.LoadProgress.Value += current;
+                                //LoadWindow.LoadButton.IsEnabled = true;
+                                //currentProgress.Load(current);
                                 Console.WriteLine("dct");
                                 current = 0;
                             }
@@ -104,9 +131,12 @@ namespace WpfApp.ViewModel
         {
             DbPeopleContextConn context = new DbPeopleContextConn();
             await Task.Run(() => {
-                bool isHolder = IsPlaceholder();
-                bool isCorrectDate = CheckDate();
-                DateTime date;
+                Console.WriteLine(SurnameTB);
+                Console.WriteLine(_test);
+                Console.WriteLine(NameTB);
+                //bool isHolder = IsPlaceholder();
+                //bool isCorrectDate = CheckDate();
+                /*DateTime date;
                 if (!isHolder && !isCorrectDate)
                 {
                     _mainWindow.DateTB.Focus();
@@ -116,16 +146,15 @@ namespace WpfApp.ViewModel
                 if (!isHolder && isCorrectDate)
                     date = GetDate();
                 else
-                    date = DateTime.Now;
-                _loadData.People = (from human in context.People
-                                    where (isHolder ? true : human.Date == date)
-                                    && (string.IsNullOrEmpty(_mainWindow.NameTB.Text) || human.Name == _mainWindow.NameTB.Text)
-                                    && (string.IsNullOrEmpty(_mainWindow.SurnameTB.Text) || human.Surname == _mainWindow.SurnameTB.Text)
-                                    && (string.IsNullOrEmpty(_mainWindow.PatronymicTB.Text) || human.Patronymic == _mainWindow.PatronymicTB.Text)
-                                    && (string.IsNullOrEmpty(_mainWindow.CityTB.Text) || human.City == _mainWindow.CityTB.Text)
-                                    && (string.IsNullOrEmpty(_mainWindow.CountryTB.Text) || human.Country == _mainWindow.CountryTB.Text)
+                    date = DateTime.Now;*/
+                _loadData.People = (from human in context.People where
+                                    (string.IsNullOrEmpty(NameTB) || human.Name == NameTB)
+                                    && (string.IsNullOrEmpty(SurnameTB) || human.Surname == SurnameTB)
+                                    && (string.IsNullOrEmpty(PatronymicTB) || human.Patronymic == PatronymicTB)
+                                    && (string.IsNullOrEmpty(CityTB) || human.City == CityTB)
+                                    && (string.IsNullOrEmpty(CountryTB) || human.Country == CountryTB)
                                     select human).ToList();
-                _mainWindow.ResultTb.Text = _loadData.People.Count.ToString();
+                ResultTB= _loadData.People.Count.ToString();
             });
         }
         private bool IsPlaceholder() => _mainWindow.DateTB.Text.CompareTo(PLACEHOLDER) == 0 ? true : false;
@@ -133,7 +162,7 @@ namespace WpfApp.ViewModel
         private bool CheckDate()
         {
             Regex regex = new Regex(@"([0-3]{1}[0-9]{1})-([0-1]{1}[0-9]{1})-(19|20)([0-9]{2})");
-            return regex.IsMatch(_mainWindow.DateTB.Text);
+            return regex.IsMatch(DateTB);
         }
 
         private DateTime GetDate()

@@ -21,30 +21,30 @@
                 <StackPanel>
                     <Grid Height="150" Background="White">
                         <Button HorizontalAlignment="Right" Height="20" VerticalAlignment="Top" BorderBrush="Transparent" Background="Transparent" Click="Menu_Button_Click" >
-                            <Image Source="Icons/menu.png"></Image>
+                            <Image Source="\Assets\Icons\menu.png"></Image>
                         </Button>
                     </Grid>
                     <Button Background="Transparent" BorderThickness="0"  FontFamily="Century Gothic" FontSize="14" Width="180" Command="{Binding Source={StaticResource vmRead},Path=Command}">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="Icons/downloadFile.png" VerticalAlignment="Center"></Image>
+                            <Image Source="\Assets\Icons\downloadFile.png" VerticalAlignment="Center"></Image>
                             <TextBlock Text="Прочитать файл" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
                         </StackPanel>
                     </Button>
                     <Button Background="Transparent" BorderThickness="0"  FontFamily="Century Gothic" FontSize="14" Width="180"  Command="{Binding Source={StaticResource vmRead},Path=FindCommand}">
                         <StackPanel Orientation="Horizontal" Height="30" >
-                            <Image Source="Icons/search.png" VerticalAlignment="Center"></Image>
+                            <Image Source="\Assets\Icons\search.png" VerticalAlignment="Center"></Image>
                             <TextBlock Text="Найти" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
                         </StackPanel>
                     </Button>
                     <Button Background="Transparent" BorderThickness="0"  FontFamily="Century Gothic" FontSize="14" Width="180" Command="{Binding Source={StaticResource vmRead},Path=XMLCommand}">
                         <StackPanel Orientation="Horizontal" Height="30">
-                            <Image Source="Icons/wmlFile.png" VerticalAlignment="Center"></Image>
+                            <Image Source="\Assets\Icons\wmlFile.png" VerticalAlignment="Center"></Image>
                             <TextBlock Text="Загрузить в XML" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
                         </StackPanel>
                     </Button>
                     <Button  Background="Transparent" BorderThickness="0"  FontFamily="Century Gothic" FontSize="14" Width="180" Command="{Binding Source={StaticResource vmRead},Path=ExcelCommand}">
                         <StackPanel Orientation="Horizontal" Height="30">
-                            <Image Source="Icons/excelFile.png" VerticalAlignment="Center"></Image>
+                            <Image Source="\Assets\Icons\/excelFile.png" VerticalAlignment="Center"></Image>
                             <TextBlock Text="Загрузить в Excel" Margin="20 0 0 0" VerticalAlignment="Center"  Foreground="DarkGray" FontWeight="Bold"></TextBlock>
                         </StackPanel>
                     </Button>
@@ -54,34 +54,34 @@
         <Grid Width="400" Height="340" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <StackPanel>
                 <TextBlock  TextWrapping="Wrap" Text="Дата" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <TextBox x:Name="DateTB"  Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF" Text="dd-mm-yyyy" MaxLength="10"/>
+                <TextBox x:Name="DateTB"  Height="20" Text="{Binding Source={StaticResource vmRead}, Path=Date}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"  MaxLength="10"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Margin="0 40 0 0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" HorizontalAlignment="Center" />
-                <TextBox x:Name="NameTB"  Height="20"  TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+                <TextBox x:Name="NameTB"  Height="20"  TextWrapping="Wrap" Text="{Binding Source={StaticResource vmRead}, Path=Name}"  VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Margin="0 80 0 0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <TextBox x:Name="SurnameTB"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+                <TextBox x:Name="SurnameTB"  TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Source={StaticResource vmRead}, Path=Surname}" Width="120" Background="#FFCFCFCF"/>
 
             </StackPanel>
             <StackPanel>
                 <TextBlock Margin="0 120 0 0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top"  HorizontalAlignment="Center"/>
-                <TextBox x:Name="PatronymicTB"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+                <TextBox x:Name="PatronymicTB"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding Source={StaticResource vmRead}, Path=Patronymic}" Background="#FFCFCFCF"/>
 
             </StackPanel>
             <StackPanel>
                 <TextBlock Margin="0 160 0 0" TextWrapping="Wrap" Text="Город" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <TextBox x:Name="CityTB" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+                <TextBox x:Name="CityTB" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding Source={StaticResource vmRead}, Path=City}" Background="#FFCFCFCF"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Margin="0 200 0 0" TextWrapping="Wrap" Text="Страна" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <TextBox x:Name="CountryTB" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+                <TextBox x:Name="CountryTB" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"  Text="{Binding Source={StaticResource vmRead}, Path=Country}" Background="#FFCFCFCF"/>
 
             </StackPanel>
             <StackPanel>
                 <TextBlock Margin="0 240 0 0" TextWrapping="Wrap" Text="Результат" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <TextBox x:Name="ResultTb" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="#FFCFCFCF"/>
+                <TextBox x:Name="ResultTb" IsReadOnly="True" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Source={StaticResource vmRead}, Path=Result}" Width="120" Background="#FFCFCFCF"/>
             </StackPanel>
         </Grid>
     </Grid>
